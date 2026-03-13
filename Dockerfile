@@ -14,4 +14,5 @@ WORKDIR /app
 COPY --from=build /app/build ./build
 USER node
 EXPOSE 8080
+
 CMD ["serve", "-s", "build", "-l", "8080"]
