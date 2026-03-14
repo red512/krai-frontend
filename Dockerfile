@@ -11,8 +11,9 @@ RUN npm run build
 FROM node:20-slim
 RUN npm install -g serve@14
 WORKDIR /app
-COPY --from=build /app/build ./build
+COPY --chown=node:node --from=build /app/build ./build
+COPY --chown=node:node entrypoint.sh ./entrypoint.sh
 USER node
 EXPOSE 8080
 
-CMD ["serve", "-s", "build", "-l", "8080"]
+ENTRYPOINT ["./entrypoint.sh"]
