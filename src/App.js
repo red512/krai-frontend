@@ -5,20 +5,20 @@ import JobCard from "./JobCard";
 import "./App.css";
 
 export default function App() {
-  const { user, logout, oauthEnabled } = useAuth();
+  const { user, logout, oauthEnabled, gsiReady } = useAuth();
   const [jobs, setJobs] = useState([]);
   const signInRef = useRef(null);
 
   const token = user?.token || null;
 
   useEffect(() => {
-    if (oauthEnabled && !user && signInRef.current && window.google?.accounts?.id) {
+    if (oauthEnabled && gsiReady && !user && signInRef.current) {
       window.google.accounts.id.renderButton(signInRef.current, {
         theme: "outline",
         size: "large",
       });
     }
-  }, [oauthEnabled, user]);
+  }, [oauthEnabled, gsiReady, user]);
 
   const addJob = (job) => {
     setJobs((prev) => [job, ...prev]);

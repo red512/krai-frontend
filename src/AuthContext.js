@@ -16,6 +16,7 @@ function decodeJwtPayload(token) {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [gsiReady, setGsiReady] = useState(false);
 
   const handleCredentialResponse = useCallback((response) => {
     const payload = decodeJwtPayload(response.credential);
@@ -45,6 +46,7 @@ export function AuthProvider({ children }) {
         client_id: GOOGLE_CLIENT_ID,
         callback: handleCredentialResponse,
       });
+      setGsiReady(true);
     };
 
     if (window.google?.accounts?.id) {
@@ -61,7 +63,7 @@ export function AuthProvider({ children }) {
   }, [handleCredentialResponse]);
 
   return (
-    <AuthContext.Provider value={{ user, logout, oauthEnabled: !!GOOGLE_CLIENT_ID }}>
+    <AuthContext.Provider value={{ user, logout, oauthEnabled: !!GOOGLE_CLIENT_ID, gsiReady }}>
       {children}
     </AuthContext.Provider>
   );
