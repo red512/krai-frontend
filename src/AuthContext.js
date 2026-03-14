@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
         callback: handleCredentialResponse,
+        auto_select: false,
       });
       setGsiReady(true);
     };
